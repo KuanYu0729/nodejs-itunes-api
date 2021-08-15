@@ -126,6 +126,35 @@ itunes.createBundleId(BUNDLE_ID_NAME, BUNDLE_ID, DeviceType.IOS, [Capability.PUS
 	});
 ```
 
+### Create profile
+
+- Support profile type: `IOS_APP_DEVELOPMENT`, `IOS_APP_STORE`, `IOS_APP_ADHOC`, `IOS_APP_INHOUSE`, `MAC_APP_DEVELOPMENT`, `MAC_APP_STORE`, `MAC_APP_DIRECT`, `TVOS_APP_DEVELOPMENT`, `TVOS_APP_STORE`, `TVOS_APP_ADHOC`, `TVOS_APP_INHOUSE`, `MAC_CATALYST_APP_DEVELOPMENT`, `MAC_CATALYST_APP_STORE` and `MAC_CATALYST_APP_DIRECT`
+
+```js
+const ProfileType = itunes.ProfileType;
+const CERT_ID = "CERTIFICATE_ID";
+const BUNDLE_ID = "ID of Bundle-ID";
+const PROFILE_NAME = "PROFILE_NAME";
+
+itunes.getDeviceList()
+	.then(function(response) {
+		let deviceIdList = response.data.map(function(info) {
+			return info.id;
+		});
+
+		return itunes.createProfile(PROFILE_NAME, CERT_ID, BUNDLE_ID, deviceIdList, ProfileType.IOS_APP_DEVELOPMENT)
+			.then(function(response) {
+				/* create profile result */
+			})
+			.catch(error => {
+				console.error(error);
+			});
+	})
+	.catch(error => {
+		console.error(error);
+	});
+```
+
 
 
 # Next
@@ -136,7 +165,7 @@ itunes.createBundleId(BUNDLE_ID_NAME, BUNDLE_ID, DeviceType.IOS, [Capability.PUS
 
 - ~~Support bundle-id capabilities~~
 
-- Support create profile
+- ~~Support create profile~~
 
 - Support delete profile
 
