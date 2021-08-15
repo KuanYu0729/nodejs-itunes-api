@@ -8,7 +8,7 @@ npm install nodejs-itunes-api
 
 # How to use
 
-## Create instance
+### Create instance
 
 ```js
 let privateKey = fs.readFileSync(/* file of p8 key */));
@@ -19,7 +19,7 @@ let itunes = new iTunes({
 });
 ```
 
-## Get all certificate
+### Get all certificate
 
 ```js
 itunes.getAllCertificate()
@@ -31,7 +31,7 @@ itunes.getAllCertificate()
 	});
 ```
 
-## Get specific type of certificate
+### Get specific type of certificate
 
 - Support certificate: `IOS_DEVELOPMENT`, `IOS_DISTRIBUTION`, `DEVELOPMENT`, `DISTRIBUTION`
 
@@ -46,7 +46,7 @@ itunes.getCertificate(CertificateType.DEVELOPMENT)
 	});
 ```
 
-## Register device UDID
+### Register device UDID
 
 ```js
 const DEVICE_NAME = "DEVICE NAME";
@@ -62,7 +62,7 @@ itunes.registerDevice(DEVICE_NAME, UDID, DeviceType.IOS)
 	});
 ```
 
-## Get device list
+### Get device list
 
 ```js
 itunes.getDeviceList()
@@ -74,7 +74,7 @@ itunes.getDeviceList()
 	});
 ```
 
-## Create bundle id
+### Create bundle id
 
 ```js
 const BUNDLE_ID_NAME = "BUNDLE_ID_NAME";
@@ -90,13 +90,51 @@ itunes.createBundleId(BUNDLE_ID_NAME, BUNDLE_ID, DeviceType.IOS)
 	});
 ```
 
+### Create bundle id with capability
+
+- Create bundle id with single capability.
+
+```js
+const BUNDLE_ID_NAME = "BUNDLE_ID_NAME";
+const BUNDLE_ID = "BUNDLE_ID";
+const DeviceType = itunes.DeviceType;
+const Capability = itunes.CapabilityType;
+
+itunes.createBundleId(BUNDLE_ID_NAME, BUNDLE_ID, DeviceType.IOS, Capability.PUSH_NOTIFICATIONS)
+	.then(function(response) {
+		/* Create bundle id result*/
+	})
+	.catch(error => {
+		console.error(error);
+	});
+```
+
+- Create bundle id with multiple capability.
+
+```js
+const BUNDLE_ID_NAME = "BUNDLE_ID_NAME";
+const BUNDLE_ID = "BUNDLE_ID";
+const DeviceType = itunes.DeviceType;
+const Capability = itunes.CapabilityType;
+
+itunes.createBundleId(BUNDLE_ID_NAME, BUNDLE_ID, DeviceType.IOS, [Capability.PUSH_NOTIFICATIONS, Capability.ICLOUD])
+	.then(function(response) {
+		/* Create bundle id result*/
+	})
+	.catch(error => {
+		console.error(error);
+	});
+```
+
+
+
 # Next
 
 - ~~Fixed device rename by UDID~~
 
 - ~~Support create bundle-id~~
 
-- Support bundle-id capabilities
+- ~~Support bundle-id capabilities~~
 
 - Support create profile
 
