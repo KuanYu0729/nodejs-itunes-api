@@ -52,7 +52,7 @@ interface DeviceAttribute {
 }
 declare class DeviceManager {
     register(name: string, udid: string, deviceType: DeviceType): Promise<RegisterDeviceResult>;
-    getList(deviceType?: DeviceType[] | DeviceType): Promise<QueryDeviceResult>;
+    getList(deviceType?: DeviceType): Promise<QueryDeviceResult>;
     rename(udid: string, newName: string): Promise<ModifyDeviceResult>;
 }
 declare const _default: DeviceManager;

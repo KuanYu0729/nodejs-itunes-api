@@ -3,7 +3,7 @@ import { iTunesOptions } from "./iTunesOptions";
 import TokenManager from "./Token/TokenManager";
 import DeviceManager, { ModifyDeviceResult, QueryDeviceResult, RegisterDeviceResult } from "./Device/DeviceManager";
 import { DeviceType } from "./DeviceType";
-import { CertificateType } from "/Users/kuan-yuchou/Documents/nodejs/nodejs-itunes-api/itunes/src/CertificateType";
+import { CertificateType } from "./CertificateType";
 
 
 class iTunes {
@@ -11,8 +11,7 @@ class iTunes {
 	getDeviceList: (deviceType?: DeviceType | DeviceType[]) => Promise<QueryDeviceResult>;
 	DeviceType: typeof DeviceType;
 	getAllCertificate: () => Promise<QueryCertificateResult>;
-	renameDevice: (udid: string, newName: string) => Promise<ModifyDeviceResult>;
-	getCertificate: (certType: import("/Users/kuan-yuchou/Documents/nodejs/nodejs-itunes-api/itunes/src/CertificateType").CertificateType) => Promise<QueryCertificateResult>;
+	getCertificate: (certType: CertificateType) => Promise<QueryCertificateResult>;
 	CertificateType: typeof CertificateType;
 	constructor(options: iTunesOptions) {
 		TokenManager.setOptions(options);
@@ -22,7 +21,10 @@ class iTunes {
 		this.getAllCertificate = CertificateManager.getAllCertificate;
 		this.registerDevice = DeviceManager.register;
 		this.getDeviceList = DeviceManager.getList;
-		this.renameDevice = DeviceManager.rename;
+	}
+
+	renameDevice(udid: string, newName: string): Promise<ModifyDeviceResult> {
+		return DeviceManager.rename(udid, newName);
 	}
 }
 

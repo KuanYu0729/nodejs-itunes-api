@@ -74,3 +74,16 @@ itunes.getDeviceList()
 	});
 ```
 
+# Next
+
+- ~~ Fixed device rename by UDID ~~
+
+- Support create bundle-id
+
+- Support bundle-id capabilities
+
+- Support create profile
+
+- Support delete profile
+
+- Support modify profile (delete original profile and create new profile)
