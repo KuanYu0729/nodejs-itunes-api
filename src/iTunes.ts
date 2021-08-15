@@ -6,20 +6,21 @@ import { DeviceType } from "./DeviceType";
 import { CertificateType } from "./CertificateType";
 import BundleIDManager, { CreateBundleIDResult, QueryBundleIDResult } from "./BundleID/BundleIDManager";
 import { CapabilityType } from "./CapabilityType";
+import ProfileManager, { CreateProfileResult } from "./Profile/ProfileManager";
+import { ProfileType } from "./ProfileType";
 
 
 class iTunes {
-
-
-
 	DeviceType: typeof DeviceType;
 	CertificateType: typeof CertificateType;
 	CapabilityType: typeof CapabilityType;
+	ProfileType: typeof ProfileType;
 	constructor(options: iTunesOptions) {
 		TokenManager.setOptions(options);
 		this.DeviceType = DeviceType;
 		this.CertificateType = CertificateType;
 		this.CapabilityType = CapabilityType;
+		this.ProfileType = ProfileType;
 	}
 
 	// Certificate
@@ -54,6 +55,12 @@ class iTunes {
 
 	getBundleIdList(): Promise<QueryBundleIDResult> {
 		return BundleIDManager.getList();
+	}
+
+	// Profile
+
+	createProfile(name: string, certId: string[] | string, bundleId: string, deviceId: string[] | string, profileType: ProfileType): Promise<CreateProfileResult> {
+		return ProfileManager.create(name, certId, bundleId, deviceId, profileType);
 	}
 }
 
