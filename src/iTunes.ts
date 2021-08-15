@@ -5,31 +5,51 @@ import DeviceManager, { ModifyDeviceResult, QueryDeviceResult, RegisterDeviceRes
 import { DeviceType } from "./DeviceType";
 import { CertificateType } from "./CertificateType";
 import BundleIDManager, { CreateBundleIDResult, QueryBundleIDResult } from "./BundleID/BundleIDManager";
+import { CapabilityType } from "./CapabilityType";
 
 
 class iTunes {
-	registerDevice: (name: string, udid: string, deviceType: DeviceType) => Promise<RegisterDeviceResult>;
-	getDeviceList: (deviceType?: DeviceType | DeviceType[]) => Promise<QueryDeviceResult>;
+
+
+
 	DeviceType: typeof DeviceType;
-	getAllCertificate: () => Promise<QueryCertificateResult>;
-	getCertificate: (certType: CertificateType) => Promise<QueryCertificateResult>;
 	CertificateType: typeof CertificateType;
+	CapabilityType: typeof CapabilityType;
 	constructor(options: iTunesOptions) {
 		TokenManager.setOptions(options);
 		this.DeviceType = DeviceType;
 		this.CertificateType = CertificateType;
-		this.getCertificate = CertificateManager.getCertificate;
-		this.getAllCertificate = CertificateManager.getAllCertificate;
-		this.registerDevice = DeviceManager.register;
-		this.getDeviceList = DeviceManager.getList;
+		this.CapabilityType = CapabilityType;
+	}
+
+	// Certificate
+
+	getCertificate(certType: CertificateType): Promise<QueryCertificateResult> {
+		return CertificateManager.getCertificate(certType);
+	}
+
+	getAllCertificate(): Promise<QueryCertificateResult> {
+		return CertificateManager.getAllCertificate();
+	}
+
+	// Device
+
+	registerDevice(name: string, udid: string, deviceType: DeviceType): Promise<RegisterDeviceResult> {
+		return DeviceManager.register(name, udid, deviceType);
+	}
+
+	getDeviceList(deviceType?: DeviceType): Promise<QueryDeviceResult> {
+		return DeviceManager.getList(deviceType);
 	}
 
 	renameDevice(udid: string, newName: string): Promise<ModifyDeviceResult> {
 		return DeviceManager.rename(udid, newName);
 	}
 
-	createBundleId(name: string, bundleId: string, deviceType: DeviceType): Promise<CreateBundleIDResult> {
-		return BundleIDManager.create(name, bundleId, deviceType);
+	// Bundle ID
+
+	createBundleId(name: string, bundleId: string, deviceType: DeviceType, capabilityType?: CapabilityType[] | CapabilityType): Promise<CreateBundleIDResult> {
+		return BundleIDManager.create(name, bundleId, deviceType, capabilityType);
 	}
 
 	getBundleIdList(): Promise<QueryBundleIDResult> {

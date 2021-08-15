@@ -103,3 +103,5 @@ itunes.createBundleId(BUNDLE_ID_NAME, BUNDLE_ID, DeviceType.IOS)
 - Support delete profile
 
 - Support modify profile (delete original profile and create new profile)
+
+- Support bundle-id filter

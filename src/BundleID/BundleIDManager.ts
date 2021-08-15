@@ -1,9 +1,12 @@
 import axios from "axios";
+import { CapabilityType } from "../CapabilityType";
 import { DeviceType } from "../DeviceType";
-import { LinkList } from "../LinkList";
 import TokenManager from "../Token/TokenManager";
+import { BundleID } from "./BundleID.interface";
 
 const URL = "https://api.appstoreconnect.apple.com/v1/bundleIds";
+
+const CAPABILITY_URL = "https://api.appstoreconnect.apple.com/v1/bundleIdCapabilities";
 
 export interface CreateBundleIDResult {
 	data: BundleID;
@@ -13,71 +16,15 @@ export interface QueryBundleIDResult {
 	data: BundleID[];
 }
 
-interface BundleIDAttribute {
-	/**
-	 * bundle id name
-	 */
-	name: string;
-	/**
-	 * bundle id
-	 */
-	identifier: string;
-	/**
-	 * device platform
-	 */
-	platform: 'IOS' | 'MAC_OS';
-	/**
-	 * team id
-	 */
-	seedId: string;
-}
-
-interface BundleIdCapability {
-	type: 'bundleIdCapabilities';
-	id: string;
-}
-
-interface Profile {
-	type: 'profiles';
-	id: string;
-}
-
-interface Profiles {
-	data: Profile[];
-	links: LinkList;
-}
-
-interface BundleIdCapabilities {
-	data: BundleIdCapability[];
-	links: LinkList;
-}
-
-interface App {
-
-}
-
-interface RelationShips {
-	app: App;
-	bundleIdCapabilities: BundleIdCapabilities;
-	profiles: Profiles;
-}
-
-interface BundleID {
-	type: 'bundleIds';
-	/**
-	 * id
-	 */
-	id: string;
-	attributes: BundleIDAttribute;
-	links: LinkList
-	relationships: RelationShips
+export interface ModifyCapabilityResult {
+	data: BundleID;
 }
 
 
 class BundleIDManager {
-	async create(name: string, bundleId: string, deviceType: DeviceType): Promise<CreateBundleIDResult> {
+	async create(name: string, bundleId: string, deviceType: DeviceType, capabilityType?: CapabilityType[] | CapabilityType): Promise<CreateBundleIDResult> {
 		const TOKEN = TokenManager.getToken();
-		return await axios({
+		let result = await axios({
 			"url": URL,
 			"method": "post",
 			"headers": {
@@ -96,9 +43,13 @@ class BundleIDManager {
 			})
 		}).then(response => {
 			return response.data;
-		}, error => {
+		}).catch(error => {
 			throw new Error(error.response.data.errors[0].detail)
 		});
+		if (typeof capabilityType === "undefined") {
+			return result;
+		}
+		return this.enable(result.data.id, capabilityType);
 	}
 
 	async getList(): Promise<QueryBundleIDResult> {
@@ -142,6 +93,58 @@ class BundleIDManager {
 			});
 		}, Promise.resolve({
 			"data": []
+		}));
+	}
+
+	async enable(id: string, capabilityType: CapabilityType[] | CapabilityType): Promise<ModifyCapabilityResult> {
+		let capabilityTypeList;
+		if (!Array.isArray(capabilityType)) {
+			capabilityTypeList = [capabilityType];
+		} else {
+			capabilityTypeList = capabilityType;
+		}
+		let typeList = Object.values(CapabilityType);
+		for (let i = 0; i < capabilityTypeList.length; i += 1) {
+			if (typeList.indexOf(capabilityTypeList[i]) === -1) {
+				throw new Error(`Invalid capability type: ${capabilityTypeList}`);
+			}
+		}
+		if (capabilityTypeList.length === 0) {
+			throw new Error("No valid capability type");
+		}
+		const TOKEN = TokenManager.getToken();
+		return capabilityTypeList.reduce(async (promise, type) => {
+			await promise;
+			return axios({
+				"url": CAPABILITY_URL,
+				"method": "post",
+				"headers": {
+					'Authorization': 'Bearer ' + TOKEN,
+					'Content-Type': 'application/json'
+				},
+				"data": JSON.stringify({
+					"data": {
+						"type": "bundleIdCapabilities",
+						"attributes": {
+							"capabilityType": type
+						},
+						"relationships": {
+							"bundleId": {
+								"data": {
+									"type": "bundleIds",
+									"id": id
+								}
+							}
+						}
+					}
+				})
+			}).then(response => {
+				return response.data;
+			}, error => {
+				throw new Error(error.response.data.errors[0].detail)
+			});
+		}, Promise.resolve({
+			"data": {}
 		}));
 	}
 }
