@@ -17,6 +17,7 @@ declare class BundleIDManager {
     create(name: string, bundleId: string, deviceType: DeviceType, capabilityType?: CapabilityType[] | CapabilityType): Promise<CreateBundleIDResult>;
     getInfo(id: string): Promise<QueryBundleIDInformationResult>;
     getList(): Promise<QueryBundleIDResult>;
+    delete(id: string): Promise<any>;
     enable(id: string, capabilityType: CapabilityType[] | CapabilityType): Promise<ModifyCapabilityResult>;
 }
 declare const _default: BundleIDManager;

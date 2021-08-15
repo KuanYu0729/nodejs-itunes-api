@@ -126,6 +126,19 @@ itunes.createBundleId(BUNDLE_ID_NAME, BUNDLE_ID, DeviceType.IOS, [Capability.PUS
 	});
 ```
 
+### Delete bundle id
+
+```js
+const BUNDLE_ID = "ID of Bundle-ID";
+
+itunes.deleleBundleId(BUNDLE_ID)
+	.then(function() {
+		/* delete bundle-id success */
+	}).catch(error => {
+		console.error(error);
+	});
+```
+
 ### Create profile
 
 - Support profile type: `IOS_APP_DEVELOPMENT`, `IOS_APP_STORE`, `IOS_APP_ADHOC`, `IOS_APP_INHOUSE`, `MAC_APP_DEVELOPMENT`, `MAC_APP_STORE`, `MAC_APP_DIRECT`, `TVOS_APP_DEVELOPMENT`, `TVOS_APP_STORE`, `TVOS_APP_ADHOC`, `TVOS_APP_INHOUSE`, `MAC_CATALYST_APP_DEVELOPMENT`, `MAC_CATALYST_APP_STORE` and `MAC_CATALYST_APP_DIRECT`
@@ -164,6 +177,8 @@ itunes.getDeviceList()
 - ~~Support create bundle-id~~
 
 - ~~Support bundle-id capabilities~~
+
+- ~~Support delete bundle-id~~
 
 - ~~Support create profile~~
 

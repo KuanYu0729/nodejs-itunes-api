@@ -20,6 +20,7 @@ declare class iTunes {
     renameDevice(udid: string, newName: string): Promise<ModifyDeviceResult>;
     createBundleId(name: string, bundleId: string, deviceType: DeviceType, capabilityType?: CapabilityType[] | CapabilityType): Promise<CreateBundleIDResult>;
     getBundleIdList(): Promise<QueryBundleIDResult>;
+    deleleBundleId(id: string): Promise<any>;
     createProfile(name: string, certId: string[] | string, bundleId: string, deviceId: string[] | string, profileType: ProfileType): Promise<CreateProfileResult>;
 }
 export default iTunes;

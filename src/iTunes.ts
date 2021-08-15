@@ -57,6 +57,10 @@ class iTunes {
 		return BundleIDManager.getList();
 	}
 
+	deleleBundleId(id: string): Promise<any> {
+		return BundleIDManager.delete(id);
+	}
+
 	// Profile
 
 	createProfile(name: string, certId: string[] | string, bundleId: string, deviceId: string[] | string, profileType: ProfileType): Promise<CreateProfileResult> {

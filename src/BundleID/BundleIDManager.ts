@@ -123,6 +123,26 @@ class BundleIDManager {
 		}));
 	}
 
+	async delete(id: string): Promise<any> {
+		if (typeof id !== "string") {
+			throw new Error("Invalid id of bundle-id");
+		}
+		const TOKEN = TokenManager.getToken();
+		let url = urljoin(URL, id);
+		return await axios({
+			"url": url,
+			"method": "delete",
+			"headers": {
+				'Authorization': 'Bearer ' + TOKEN,
+				'Content-Type': 'application/json'
+			}
+		}).then(response => {
+			return response.data;
+		}).catch(error => {
+			throw new Error(error.response.data.errors[0].detail)
+		});
+	}
+
 	async enable(id: string, capabilityType: CapabilityType[] | CapabilityType): Promise<ModifyCapabilityResult> {
 		let capabilityTypeList;
 		if (!Array.isArray(capabilityType)) {
