@@ -74,11 +74,27 @@ itunes.getDeviceList()
 	});
 ```
 
+## Create bundle id
+
+```js
+const BUNDLE_ID_NAME = "BUNDLE_ID_NAME";
+const BUNDLE_ID = "BUNDLE_ID";
+const DeviceType = itunes.DeviceType;
+
+itunes.createBundleId(BUNDLE_ID_NAME, BUNDLE_ID, DeviceType.IOS)
+	.then(function(response) {
+		/* Create bundle id result*/
+	})
+	.catch(error => {
+		console.error(error);
+	});
+```
+
 # Next
 
 - ~~Fixed device rename by UDID~~
 
-- Support create bundle-id
+- ~~Support create bundle-id~~
 
 - Support bundle-id capabilities
 

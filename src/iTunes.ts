@@ -4,6 +4,7 @@ import TokenManager from "./Token/TokenManager";
 import DeviceManager, { ModifyDeviceResult, QueryDeviceResult, RegisterDeviceResult } from "./Device/DeviceManager";
 import { DeviceType } from "./DeviceType";
 import { CertificateType } from "./CertificateType";
+import BundleIDManager from "./BundleID/BundleIDManager";
 
 
 class iTunes {
@@ -25,6 +26,10 @@ class iTunes {
 
 	renameDevice(udid: string, newName: string): Promise<ModifyDeviceResult> {
 		return DeviceManager.rename(udid, newName);
+	}
+
+	createBundleId(name: string, bundleId: string, deviceType: DeviceType) {
+		return BundleIDManager.create(name, bundleId, deviceType);
 	}
 }
 

@@ -12,5 +12,6 @@ declare class iTunes {
     CertificateType: typeof CertificateType;
     constructor(options: iTunesOptions);
     renameDevice(udid: string, newName: string): Promise<ModifyDeviceResult>;
+    createBundleId(name: string, bundleId: string, deviceType: DeviceType): Promise<any>;
 }
 export default iTunes;
