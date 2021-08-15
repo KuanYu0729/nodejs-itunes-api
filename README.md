@@ -76,7 +76,7 @@ itunes.getDeviceList()
 
 # Next
 
-- ~~ Fixed device rename by UDID ~~
+- ~~Fixed device rename by UDID~~
 
 - Support create bundle-id
 
