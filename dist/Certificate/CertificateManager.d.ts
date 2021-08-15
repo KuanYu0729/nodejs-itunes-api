@@ -1,4 +1,5 @@
 import { CertificateType } from "../CertificateType";
+import { LinkList } from "../LinkList";
 export interface QueryCertificateResult {
     data: Certificate[];
 }
@@ -16,9 +17,6 @@ interface Certificate {
      * certificate links
      */
     links: LinkList;
-}
-interface LinkList {
-    [key: string]: string;
 }
 interface CertificateAttribute {
     /**

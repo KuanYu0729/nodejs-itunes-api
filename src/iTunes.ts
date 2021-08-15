@@ -4,7 +4,7 @@ import TokenManager from "./Token/TokenManager";
 import DeviceManager, { ModifyDeviceResult, QueryDeviceResult, RegisterDeviceResult } from "./Device/DeviceManager";
 import { DeviceType } from "./DeviceType";
 import { CertificateType } from "./CertificateType";
-import BundleIDManager from "./BundleID/BundleIDManager";
+import BundleIDManager, { CreateBundleIDResult, QueryBundleIDResult } from "./BundleID/BundleIDManager";
 
 
 class iTunes {
@@ -28,8 +28,12 @@ class iTunes {
 		return DeviceManager.rename(udid, newName);
 	}
 
-	createBundleId(name: string, bundleId: string, deviceType: DeviceType) {
+	createBundleId(name: string, bundleId: string, deviceType: DeviceType): Promise<CreateBundleIDResult> {
 		return BundleIDManager.create(name, bundleId, deviceType);
+	}
+
+	getBundleIdList(): Promise<QueryBundleIDResult> {
+		return BundleIDManager.getList();
 	}
 }
 

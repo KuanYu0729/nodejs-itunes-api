@@ -1,4 +1,5 @@
 import { DeviceType } from "../DeviceType";
+import { LinkList } from "../LinkList";
 export interface RegisterDeviceResult {
     data: Device;
 }
@@ -16,9 +17,6 @@ interface Device {
     id: string;
     attributes: DeviceAttribute;
     links: LinkList;
-}
-interface LinkList {
-    [key: string]: string;
 }
 interface DeviceAttribute {
     /**

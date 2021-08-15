@@ -1,6 +1,7 @@
 import axios from "axios";
 import urlJoin from "url-join";
 import { DeviceType } from "../DeviceType";
+import { LinkList } from "../LinkList";
 import TokenManager from "../Token/TokenManager";
 export interface RegisterDeviceResult {
 	data: Device
@@ -24,9 +25,6 @@ interface Device {
 	attributes: DeviceAttribute;
 
 	links: LinkList;
-}
-interface LinkList {
-	[key: string]: string;
 }
 
 interface DeviceAttribute {

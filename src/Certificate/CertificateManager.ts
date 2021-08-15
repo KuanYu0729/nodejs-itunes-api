@@ -1,5 +1,6 @@
 import axios from "axios";
 import { CertificateType } from "../CertificateType";
+import { LinkList } from "../LinkList";
 import TokenManager from "../Token/TokenManager";
 
 export interface QueryCertificateResult {
@@ -22,9 +23,6 @@ interface Certificate {
 	links: LinkList
 }
 
-interface LinkList {
-	[key: string]: string;
-}
 
 interface CertificateAttribute {
 	/**
