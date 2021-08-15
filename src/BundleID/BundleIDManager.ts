@@ -1,11 +1,11 @@
 import axios from "axios";
+import urljoin from "url-join";
 import { CapabilityType } from "../CapabilityType";
 import { DeviceType } from "../DeviceType";
 import TokenManager from "../Token/TokenManager";
 import { BundleID } from "./BundleID.interface";
 
 const URL = "https://api.appstoreconnect.apple.com/v1/bundleIds";
-
 const CAPABILITY_URL = "https://api.appstoreconnect.apple.com/v1/bundleIdCapabilities";
 
 export interface CreateBundleIDResult {
@@ -14,6 +14,10 @@ export interface CreateBundleIDResult {
 
 export interface QueryBundleIDResult {
 	data: BundleID[];
+}
+
+export interface QueryBundleIDInformationResult {
+	data: BundleID;
 }
 
 export interface ModifyCapabilityResult {
@@ -49,7 +53,30 @@ class BundleIDManager {
 		if (typeof capabilityType === "undefined") {
 			return result;
 		}
-		return this.enable(result.data.id, capabilityType);
+		let id = result.data.id;
+		return this.enable(result.data.id, capabilityType).then(() => {
+			return this.getInfo(id);
+		});
+	}
+
+	async getInfo(id: string): Promise<QueryBundleIDInformationResult> {
+		if (typeof id !== "string") {
+			throw new Error("Invalid id of bundle-id");
+		}
+		const TOKEN = TokenManager.getToken();
+		let url = urljoin(URL, id);
+		return await axios({
+			"url": url,
+			"method": "get",
+			"headers": {
+				'Authorization': 'Bearer ' + TOKEN,
+				'Content-Type': 'application/json'
+			}
+		}).then(response => {
+			return response.data;
+		}).catch(error => {
+			throw new Error(error.response.data.errors[0].detail)
+		});
 	}
 
 	async getList(): Promise<QueryBundleIDResult> {
