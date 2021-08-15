@@ -22,5 +22,6 @@ declare class iTunes {
     getBundleIdList(): Promise<QueryBundleIDResult>;
     deleleBundleId(id: string): Promise<any>;
     createProfile(name: string, certId: string[] | string, bundleId: string, deviceId: string[] | string, profileType: ProfileType): Promise<CreateProfileResult>;
+    deleteProfile(id: string): Promise<any>;
 }
 export default iTunes;

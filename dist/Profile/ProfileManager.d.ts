@@ -6,6 +6,7 @@ export interface CreateProfileResult {
 }
 declare class ProfileManager {
     create(name: string, certId: string[] | string, bundleId: string, deviceId: string[] | string, profileType: ProfileType): Promise<CreateProfileResult>;
+    delete(id: string): Promise<any>;
 }
 declare const _default: ProfileManager;
 export default _default;

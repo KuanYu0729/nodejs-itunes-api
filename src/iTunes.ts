@@ -66,6 +66,10 @@ class iTunes {
 	createProfile(name: string, certId: string[] | string, bundleId: string, deviceId: string[] | string, profileType: ProfileType): Promise<CreateProfileResult> {
 		return ProfileManager.create(name, certId, bundleId, deviceId, profileType);
 	}
+
+	deleteProfile(id: string): Promise<any> {
+		return ProfileManager.delete(id);
+	}
 }
 
 export default iTunes;

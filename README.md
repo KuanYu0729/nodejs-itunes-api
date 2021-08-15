@@ -168,6 +168,33 @@ itunes.getDeviceList()
 	});
 ```
 
+### Delete profile
+
+```js
+const ProfileType = itunes.ProfileType;
+const CERT_ID = "CERTIFICATE_ID";
+const BUNDLE_ID = "ID of Bundle-ID";
+const PROFILE_NAME = "PROFILE_NAME";
+itunes.getDeviceList()
+	.then(function(response) {
+		let deviceIdList = response.data.map(function(info) {
+			return info.id;
+		});
+
+		return itunes.createProfile(PROFILE_NAME, CERT_ID, BUNDLE_ID, deviceIdList, ProfileType.IOS_APP_DEVELOPMENT);
+	})
+	.then(function(response) {
+		let profileId = response.data.id;
+		return itunes.deleteProfile(profileId);
+	})
+	.then(function() {
+		/* delete profile success */
+	})
+	.catch(error => {
+		console.error(error);
+	});
+```
+
 
 
 # Next
@@ -182,7 +209,7 @@ itunes.getDeviceList()
 
 - ~~Support create profile~~
 
-- Support delete profile
+- ~~Support delete profile~~
 
 - Support modify profile (delete original profile and create new profile)
 

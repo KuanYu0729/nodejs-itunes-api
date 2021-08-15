@@ -1,4 +1,5 @@
 import axios from "axios";
+import urljoin from "url-join";
 import urlJoin from "url-join";
 import { ProfileType } from "../ProfileType";
 import TokenManager from "../Token/TokenManager";
@@ -87,5 +88,27 @@ class ProfileManager {
 			throw new Error(error.response.data.errors[0].detail)
 		});
 	}
+
+	async delete(id: string): Promise<any> {
+		if (typeof id !== "string") {
+			throw new Error("Invalid profile id");
+		}
+		const TOKEN = TokenManager.getToken();
+		let url = urljoin(URL, id);
+		return await axios({
+			"url": url,
+			"method": "delete",
+			"headers": {
+				'Authorization': 'Bearer ' + TOKEN,
+				'Content-Type': 'application/json'
+			}
+		}).then(response => {
+			return response.data;
+		}).catch(error => {
+			throw new Error(error.response.data.errors[0].detail)
+		});
+	}
+
+	
 }
 export default new ProfileManager();
