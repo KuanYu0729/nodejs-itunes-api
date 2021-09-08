@@ -1,56 +1,18 @@
 import axios from "axios";
+import { CertificateInfo } from "../CertificateInfo";
 import { CertificateType } from "../CertificateType";
 import { LinkList } from "../LinkList";
 import TokenManager from "../Token/TokenManager";
+import Certificate from "./Certificate";
 
 export interface QueryCertificateResult {
 	data: Certificate[]
 }
 
-interface Certificate {
-	type: 'certificates';
-	/**
-	 * certificate id
-	 */
-	id: string;
-	/**
-	 * certificate attribute
-	 */
-	attributes: CertificateAttribute;
-	/**
-	 * certificate links
-	 */
-	links: LinkList
-}
 
 
-interface CertificateAttribute {
-	/**
-	 * serial number
-	 */
-	serialNumber: string;
-	/**
-	 * certificate content
-	 */
-	certificateContent: string;
-	/**
-	 * creator user name
-	 */
-	displayName: string;
-	/**
-	 * certificate name
-	 */
-	name: string;
-	/**
-	 * expiration date
-	 */
-	expirationDate: string;
-	/**
-	 * certificate type
-	 */
-	certificateType: CertificateType;
 
-}
+
 
 class CertificateManager {
 	getAllCertificate(): Promise<QueryCertificateResult> {
@@ -88,8 +50,16 @@ class CertificateManager {
 		}).then(response => {
 			return response.data;
 		}).then(result => {
+			let data;
+			if (Array.isArray(result.data)) {
+				data = result.data.map(function (data: CertificateInfo) {
+					return new Certificate(data);
+				});
+			} else {
+				data = [];
+			}
 			return {
-				"data": result.data
+				data
 			};
 		}).catch(error => {
 			throw new Error(error.response.data.errors[0].detail)
