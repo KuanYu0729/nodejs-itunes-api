@@ -1,6 +1,6 @@
 {
   "name": "nodejs-itunes-api",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "Support manage app certificate, devices and provisioning-profile by nodejs",
   "main": "./dist/iTunes.js",
   "types": "./dist/iTunes.d.ts",
