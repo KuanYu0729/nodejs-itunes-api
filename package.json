@@ -8,6 +8,15 @@
     "init": "tsc --init",
     "build": "webpack"
   },
+  "keywords": [
+    "itunes",
+    "app",
+    "certificate",
+    "provisioning-profile",
+    "nodejs",
+    "profile",
+    "api"
+  ],
   "browser": {
     "buffer": false
   },
