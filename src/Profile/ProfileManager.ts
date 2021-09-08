@@ -1,16 +1,21 @@
 import axios from "axios";
 import urljoin from "url-join";
 import urlJoin from "url-join";
+import { ProfileInfo } from "../ProfileInfo";
+import { ProfileState } from "../ProfileState";
 import { ProfileType } from "../ProfileType";
 import TokenManager from "../Token/TokenManager";
+import Profile from "./Profile";
 const URL = "https://api.appstoreconnect.apple.com/v1/profiles";
 
-interface Profile {
 
-}
 
 export interface CreateProfileResult {
-	data: Profile
+	data: Profile;
+}
+
+export interface GetProfileResult {
+	data: Profile[];
 }
 class ProfileManager {
 	async create(name: string, certId: string[] | string, bundleId: string, deviceId: string[] | string, profileType: ProfileType): Promise<CreateProfileResult> {
@@ -39,7 +44,7 @@ class ProfileManager {
 				});
 			}
 		} else {
-			deviceData = deviceId.map(function(id) {
+			deviceData = deviceId.map(function (id) {
 				return {
 					"id": id,
 					"type": "devices"
@@ -82,7 +87,7 @@ class ProfileManager {
 			return response.data;
 		}).then(function (result) {
 			return {
-				"data": result.data
+				"data": new Profile(result.data)
 			};
 		}).catch(error => {
 			throw new Error(error.response.data.errors[0].detail)
@@ -109,6 +114,46 @@ class ProfileManager {
 		});
 	}
 
-	
+	async getAllProfile(): Promise<GetProfileResult> {
+		return Object.keys(ProfileType).reduce(async function (promise: Promise<GetProfileResult>, type: ProfileType) {
+			let result = await promise;
+			return Object.keys(ProfileState).reduce(async function (type: ProfileType, promise: Promise<GetProfileResult>, state: ProfileState) {
+				let result = await promise;
+				let subResult = await this.getProfile(type, state);
+				result.data = result.data.concat(subResult.data);
+				return result;
+			}.bind(this, type), Promise.resolve(result));
+		}.bind(this), Promise.resolve({
+			"data": []
+		}));
+	}
+
+	async getProfile(profileType: ProfileType, profileState: ProfileState): Promise<GetProfileResult> {
+		const TOKEN = TokenManager.getToken();
+		return axios({
+			"url": URL,
+			"method": "get",
+			"headers": {
+				'Authorization': 'Bearer ' + TOKEN,
+				'Content-Type': 'application/json'
+			},
+			"params": {
+				"filter[profileState]": [profileState],
+				"filter[profileType]": [profileType],
+				"limit": 200
+			}
+		}).then(response => {
+			return response.data
+		}).then(function (result) {
+			let profileList = result.data.map(function (info: ProfileInfo) {
+				return new Profile(info);
+			});
+			return {
+				"data": profileList
+			};
+		})
+	}
+
+
 }
 export default new ProfileManager();

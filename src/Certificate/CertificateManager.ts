@@ -1,18 +1,12 @@
 import axios from "axios";
 import { CertificateInfo } from "../CertificateInfo";
 import { CertificateType } from "../CertificateType";
-import { LinkList } from "../LinkList";
 import TokenManager from "../Token/TokenManager";
 import Certificate from "./Certificate";
 
 export interface QueryCertificateResult {
 	data: Certificate[]
 }
-
-
-
-
-
 
 class CertificateManager {
 	getAllCertificate(): Promise<QueryCertificateResult> {

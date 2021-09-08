@@ -5,13 +5,15 @@ import { DeviceType } from "./DeviceType";
 import { CertificateType } from "./CertificateType";
 import { CreateBundleIDResult, QueryBundleIDResult } from "./BundleID/BundleIDManager";
 import { CapabilityType } from "./CapabilityType";
-import { CreateProfileResult } from "./Profile/ProfileManager";
+import { CreateProfileResult, GetProfileResult } from "./Profile/ProfileManager";
 import { ProfileType } from "./ProfileType";
+import { ProfileState } from "./ProfileState";
 declare class iTunes {
     DeviceType: typeof DeviceType;
     CertificateType: typeof CertificateType;
     CapabilityType: typeof CapabilityType;
     ProfileType: typeof ProfileType;
+    ProfileState: typeof ProfileState;
     constructor(options: iTunesOptions);
     getCertificate(certType: CertificateType): Promise<QueryCertificateResult>;
     getAllCertificate(): Promise<QueryCertificateResult>;
@@ -23,5 +25,7 @@ declare class iTunes {
     deleleBundleId(id: string): Promise<any>;
     createProfile(name: string, certId: string[] | string, bundleId: string, deviceId: string[] | string, profileType: ProfileType): Promise<CreateProfileResult>;
     deleteProfile(id: string): Promise<any>;
+    getAllProfile(): Promise<GetProfileResult>;
+    getProfile(type: ProfileType, state: ProfileState): Promise<GetProfileResult>;
 }
 export default iTunes;

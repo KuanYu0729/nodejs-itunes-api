@@ -6,8 +6,9 @@ import { DeviceType } from "./DeviceType";
 import { CertificateType } from "./CertificateType";
 import BundleIDManager, { CreateBundleIDResult, QueryBundleIDResult } from "./BundleID/BundleIDManager";
 import { CapabilityType } from "./CapabilityType";
-import ProfileManager, { CreateProfileResult } from "./Profile/ProfileManager";
+import ProfileManager, { CreateProfileResult, GetProfileResult } from "./Profile/ProfileManager";
 import { ProfileType } from "./ProfileType";
+import { ProfileState } from "./ProfileState";
 
 
 class iTunes {
@@ -15,12 +16,14 @@ class iTunes {
 	CertificateType: typeof CertificateType;
 	CapabilityType: typeof CapabilityType;
 	ProfileType: typeof ProfileType;
+	ProfileState: typeof ProfileState;
 	constructor(options: iTunesOptions) {
 		TokenManager.setOptions(options);
 		this.DeviceType = DeviceType;
 		this.CertificateType = CertificateType;
 		this.CapabilityType = CapabilityType;
 		this.ProfileType = ProfileType;
+		this.ProfileState = ProfileState;
 	}
 
 	// Certificate
@@ -69,6 +72,15 @@ class iTunes {
 
 	deleteProfile(id: string): Promise<any> {
 		return ProfileManager.delete(id);
+	}
+
+	getAllProfile(): Promise<GetProfileResult> {
+		return ProfileManager.getAllProfile();
+	}
+
+	getProfile(type: ProfileType, state: ProfileState): Promise<GetProfileResult> {
+		return ProfileManager.getProfile(type, state);
+
 	}
 }
 
