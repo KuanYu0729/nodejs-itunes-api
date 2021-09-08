@@ -195,6 +195,27 @@ itunes.getDeviceList()
 	});
 ```
 
+### Get Profile
+
+```js
+let ProfileType = itunes.ProfileType;
+let ProfileState = itunes.ProfileState;
+
+itunes.getProfile(ProfileType.IOS_APP_DEVELOPMENT, ProfileState.ACTIVE)
+	.then(function(result) {
+		let dirPath = /* directory path */;
+		for (let i = 0; i < result.data.length; i += 1) {
+			let profile = result.data[i];
+			let fileName = `${profile.getName()}.mobileprovision`;
+			let filePath = path.join(dirPath, fileName);
+			profile.save(filePath);
+		}
+	})
+	.catch(error => {
+		console.error(error);
+	});
+```
+
 
 
 # Next
