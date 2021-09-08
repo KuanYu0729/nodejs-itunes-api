@@ -1,6 +1,6 @@
 {
   "name": "nodejs-itunes-api",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "",
   "main": "./dist/iTunes.js",
   "types": "./dist/iTunes.d.ts",
