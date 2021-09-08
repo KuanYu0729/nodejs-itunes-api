@@ -1,7 +1,7 @@
 {
   "name": "nodejs-itunes-api",
   "version": "1.7.1",
-  "description": "",
+  "description": "Support manage app certificate, devices and provisioning-profile by nodejs",
   "main": "./dist/iTunes.js",
   "types": "./dist/iTunes.d.ts",
   "scripts": {
@@ -20,7 +20,7 @@
   "browser": {
     "buffer": false
   },
-  "author": "",
+  "author": "KuanYu <george310909@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "ts-loader": "^9.2.4",
